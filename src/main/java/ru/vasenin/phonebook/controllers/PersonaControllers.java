@@ -1,16 +1,14 @@
 package ru.vasenin.phonebook.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.vasenin.phonebook.domain.Persona;
 import ru.vasenin.phonebook.services.PersonaService;
 
+import java.time.Period;
 import java.util.List;
 
-@Controller
+@RestController
 public class PersonaControllers {
 
     private final PersonaService personaService;
@@ -20,12 +18,38 @@ public class PersonaControllers {
         this.personaService = personaService;
     }
 
-
-    @GetMapping("/personas")
-    public ResponseEntity<List<Persona>> readAll() {
-        List<Persona> personas = personaService.readAll();
-        return personas != null && !personas.isEmpty()
-                ? new ResponseEntity<>(personas, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping(value = "/personas", produces = "application/json")
+    public List<Persona> listAll() {
+        return personaService.listAllPersona();
     }
+
+    @PostMapping("/persona/add")
+    public void create(@RequestParam("firstname") String firstName,
+                       @RequestParam("lastname") String lastName,
+                       @RequestParam("middlename") String middleName,
+                       @RequestParam("dateofBirth") String dateOfBirth) {
+        Persona persona = new Persona(firstName, lastName, middleName,
+                dateOfBirth);
+        personaService.save(persona);
+    }
+
+    @PutMapping("/update")
+    public void update(@RequestParam("id") Long id,
+                       @RequestParam("firstname") String firstName,
+                       @RequestParam("lastname") String lastName,
+                       @RequestParam("middlename") String middleName,
+                       @RequestParam("dateofBirth") String dateOfBirth) {
+        Persona persona = new Persona(id, firstName, lastName, middleName,
+                dateOfBirth);
+        personaService.update(persona);
+
+    }
+
+    // @GetMapping(value = "/personas", produces = "application/json")
+    // public ResponseEntity<List<Persona>> readAll() {
+    //     List<Persona> personas = personaService.listAllPersona();
+    //     return personas != null && !personas.isEmpty()
+    //             ? new ResponseEntity<>(personas, HttpStatus.OK)
+    //             : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // }
 }

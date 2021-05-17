@@ -26,26 +26,23 @@ public class Persona {
     @Column(name = "dateofbirth")
     private String dateOfBirth;//дата рождения
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "number")
-    private int number;
-
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "skype")
-    private String skype;
-
-    public Persona(String firstname, String lastname, String middlename) {
-    }
-
-    public Persona(String date) {
+    public Persona(String firstName, String lastName, String middleName, String dateOfBirth) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Persona() {
 
+    }
+
+    public Persona(long id, String firstName, String lastName, String middleName, String dateOfBirth) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public long getId() {
@@ -88,37 +85,6 @@ public class Persona {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getSkype() {
-        return skype;
-    }
-
-    public void setSkype(String skype) {
-        this.skype = skype;
-    }
 }
 
 
