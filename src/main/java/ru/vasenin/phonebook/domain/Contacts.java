@@ -16,7 +16,7 @@ public class Contacts {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "number")
+    @Column(name = "number_tel")
     private int number;
 
     @Column(name = "address")
@@ -24,6 +24,11 @@ public class Contacts {
 
     @Column(name = "skype")
     private String skype;
+
+    @Column(name = "persona_id")
+    private long personaId;
+
+
 
     public long getId() {
         return id;
@@ -64,4 +69,13 @@ public class Contacts {
     public void setSkype(String skype) {
         this.skype = skype;
     }
+
+    public long getPersonaId() {
+        return personaId;
+    }
+
+    public void setPersonaId(long personaId) {
+        this.personaId = personaId;
+    }
+
 }

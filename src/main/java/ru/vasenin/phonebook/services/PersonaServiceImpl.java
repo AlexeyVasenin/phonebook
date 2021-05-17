@@ -25,14 +25,15 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public List<Persona> listAllPersona() {
-        return jdbcTemplate.query("select firstName, lastName, middlename from " +
-                "persona", new RowMapper<Persona>() {
+        return jdbcTemplate.query("select firstName, lastName, middlename, " +
+                "dateofbirth from persona", new RowMapper<Persona>() {
             @Override
             public Persona mapRow(ResultSet resultSet, int i) throws SQLException {
                 Persona persona = new Persona();
                 persona.setFirstName(resultSet.getString("firstname"));
                 persona.setLastName(resultSet.getString("lastname"));
                 persona.setMiddleName(resultSet.getString("middlename"));
+                persona.setDateOfBirth(resultSet.getString("dateofbirth"));
                 return persona;
             }
         });
@@ -56,5 +57,22 @@ public class PersonaServiceImpl implements PersonaService {
         if (checkStatus != 0) {
             System.out.println("Данные обновлены для id " + persona.getId());
         } else System.out.println("Такой записи не существует");
+    }
+
+    @Override
+    public Persona getOne() {
+        return (Persona) jdbcTemplate.query("select dateofbirth from persona",
+                new RowMapper<Persona>() {
+                    @Override
+                    public Persona mapRow(ResultSet resultSet, int i) throws SQLException {
+                        Persona persona = new Persona();
+                        persona.setFirstName(resultSet.getString("firstname"));
+                        persona.setLastName(resultSet.getString("lastname"));
+                        persona.setMiddleName(resultSet.getString("middlename"));
+                        persona.setDateOfBirth(resultSet.getString(
+                                "dateofbirth"));
+                        return persona;
+                    }
+                });
     }
 }

@@ -11,4 +11,6 @@ public interface PersonaService {
     void update(Persona persona);
 
     List<Persona> listAllPersona();
+
+    Persona getOne();
 }

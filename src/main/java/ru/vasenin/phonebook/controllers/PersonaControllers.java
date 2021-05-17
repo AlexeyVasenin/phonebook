@@ -45,11 +45,5 @@ public class PersonaControllers {
 
     }
 
-    // @GetMapping(value = "/personas", produces = "application/json")
-    // public ResponseEntity<List<Persona>> readAll() {
-    //     List<Persona> personas = personaService.listAllPersona();
-    //     return personas != null && !personas.isEmpty()
-    //             ? new ResponseEntity<>(personas, HttpStatus.OK)
-    //             : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    // }
+
 }
