@@ -1,5 +1,7 @@
 package ru.vasenin.phonebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,18 +14,23 @@ public class Persona {
 
     @Id
     @Column(name = "id")
-    private long id;
+    @JsonProperty
+    private Long id;
 
     @Column(name = "firstname")
+    @JsonProperty
     private String firstName;//Имя
 
     @Column(name = "lastname")
+    @JsonProperty
     private String lastName;//Фамилия
 
     @Column(name = "middlename")
+    @JsonProperty
     private String middleName;//отчество
 
     @Column(name = "dateofbirth")
+    @JsonProperty
     private String dateOfBirth;//дата рождения
 
     public Persona(String firstName, String lastName, String middleName, String dateOfBirth) {
@@ -37,7 +44,8 @@ public class Persona {
 
     }
 
-    public Persona(long id, String firstName, String lastName, String middleName, String dateOfBirth) {
+    public Persona(Long id, String firstName, String lastName, String middleName
+            , String dateOfBirth) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

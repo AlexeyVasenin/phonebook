@@ -2,14 +2,11 @@ package ru.vasenin.phonebook.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vasenin.phonebook.domain.Persona;
+import ru.vasenin.phonebook.mapper.PersonaMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.Period;
 import java.util.List;
 
 @Service
@@ -25,18 +22,8 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public List<Persona> listAllPersona() {
-        return jdbcTemplate.query("select firstName, lastName, middlename, " +
-                "dateofbirth from persona", new RowMapper<Persona>() {
-            @Override
-            public Persona mapRow(ResultSet resultSet, int i) throws SQLException {
-                Persona persona = new Persona();
-                persona.setFirstName(resultSet.getString("firstname"));
-                persona.setLastName(resultSet.getString("lastname"));
-                persona.setMiddleName(resultSet.getString("middlename"));
-                persona.setDateOfBirth(resultSet.getString("dateofbirth"));
-                return persona;
-            }
-        });
+        return jdbcTemplate.query("select * from persona",
+               new PersonaMapper());
     }
 
     @Override
@@ -60,19 +47,13 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public Persona getOne() {
-        return (Persona) jdbcTemplate.query("select dateofbirth from persona",
-                new RowMapper<Persona>() {
-                    @Override
-                    public Persona mapRow(ResultSet resultSet, int i) throws SQLException {
-                        Persona persona = new Persona();
-                        persona.setFirstName(resultSet.getString("firstname"));
-                        persona.setLastName(resultSet.getString("lastname"));
-                        persona.setMiddleName(resultSet.getString("middlename"));
-                        persona.setDateOfBirth(resultSet.getString(
-                                "dateofbirth"));
-                        return persona;
-                    }
-                });
+    public List<Persona> sortBirth(String dateofbirth) {
+        return jdbcTemplate.query("select * from persona where persona" +
+                        ".dateofbirth=?", new PersonaMapper(), dateofbirth);
+    }
+
+    @Override
+    public void delete(Long id) {
+        jdbcTemplate.update("delete from persona where persona.id=?",id);
     }
 }

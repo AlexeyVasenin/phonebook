@@ -1,14 +1,12 @@
 package ru.vasenin.phonebook.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vasenin.phonebook.domain.Contacts;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -24,20 +22,32 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public List<Contacts> listAllContacts() {
-        return jdbcTemplate.query("select email, number_tel, address, skype," +
-                        "persona_id from contacts",
-                new RowMapper<Contacts>() {
-            @Override
-            public Contacts mapRow(ResultSet resultSet, int i) throws SQLException {
-                Contacts contacts = new Contacts();
-                contacts.setEmail(resultSet.getString("email"));
-                contacts.setNumber(resultSet.getInt("number_tel"));
-                contacts.setAddress(resultSet.getString("address"));
-                contacts.setSkype(resultSet.getString("skype"));
-                contacts.setPersonaId(resultSet.getInt("persona_id"));
-                return contacts;
-            }
-        });
+        return jdbcTemplate.query("select * from contacts",
+                (resultSet, i) -> {
+                    Contacts contacts = new Contacts();
+                    contacts.setId(resultSet.getLong("id"));
+                    contacts.setEmail(resultSet.getString("email"));
+                    contacts.setNumber(resultSet.getInt("number_tel"));
+                    contacts.setAddress(resultSet.getString("address"));
+                    contacts.setSkype(resultSet.getString("skype"));
+                    contacts.setPersonaId(resultSet.getLong("persona_id"));
+                    return contacts;
+                });
+    }
+
+    @Override
+    public ResponseEntity<Contacts> update(Contacts contacts) {
+        int checkStatus = jdbcTemplate.update("update contacts set email " +
+                        "= ?, number_tel = ?, address = ?, skype = ? " +
+                        "where id = ?",
+                contacts.getEmail(), contacts.getNumber(),
+                contacts.getAddress(), contacts.getSkype(),
+                contacts.getId());
+
+        if (checkStatus != 0) {
+            System.out.println("Данные обновлены для id " + contacts.getId());
+        } else System.out.println("Такой записи не существует");
+        return null;
     }
 
     @Override

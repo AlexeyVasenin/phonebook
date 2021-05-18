@@ -1,5 +1,7 @@
 package ru.vasenin.phonebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,30 +13,54 @@ public class Contacts {
 
     @Id
     @Column(name = "id")
-    private long id;
+    @JsonProperty
+    private Long id;
 
     @Column(name = "email")
+    @JsonProperty
     private String email;
 
     @Column(name = "number_tel")
-    private int number;
+    @JsonProperty
+    private Integer number;
 
     @Column(name = "address")
+    @JsonProperty
     private String address;
 
     @Column(name = "skype")
+    @JsonProperty
     private String skype;
 
     @Column(name = "persona_id")
-    private long personaId;
+    @JsonProperty
+    private Long personaId;
 
+    public Contacts(Long id, String email, Integer number, String address, String skype) {
+        this.id = id;
+        this.email = email;
+        this.number = number;
+        this.address = address;
+        this.skype = skype;
+    }
 
+    public Contacts(Long id, String email, Integer number, String address, String skype, Long personaId) {
+        this.id = id;
+        this.email = email;
+        this.number = number;
+        this.address = address;
+        this.skype = skype;
+        this.personaId = personaId;
+    }
 
-    public long getId() {
+    public Contacts() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,11 +72,11 @@ public class Contacts {
         this.email = email;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -70,11 +96,11 @@ public class Contacts {
         this.skype = skype;
     }
 
-    public long getPersonaId() {
+    public Long getPersonaId() {
         return personaId;
     }
 
-    public void setPersonaId(long personaId) {
+    public void setPersonaId(Long personaId) {
         this.personaId = personaId;
     }
 

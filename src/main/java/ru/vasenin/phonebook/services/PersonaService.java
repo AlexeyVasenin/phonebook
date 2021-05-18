@@ -12,5 +12,8 @@ public interface PersonaService {
 
     List<Persona> listAllPersona();
 
-    Persona getOne();
+    List<Persona> sortBirth(String dateOfBirth);
+
+    void delete(Long id);
+
 }
